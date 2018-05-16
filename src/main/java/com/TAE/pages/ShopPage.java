@@ -11,11 +11,14 @@ public class ShopPage extends TestBase {
     @FindBy(xpath = "//div/h4[text() = 'Teddy Bear']")
     WebElement teddyBearTitle;
 
-    @FindBy(xpath = "//*[@id='product-1']//*[@class='btn btn-success']")
+    @FindBy(xpath = "//li[@id='product-1']//a[@class='btn btn-success']")
     WebElement buyTeddyBearTab;
 
     @FindBy(xpath = "//*[@id='nav-cart']/a/span")
     WebElement cartCount;
+
+    @FindBy(xpath = "//*[@id='nav-cart']/a")
+    WebElement cart;
 
     // Method to click on start shopping tab
     public String verifyTeddyTitle() {
@@ -33,5 +36,10 @@ public class ShopPage extends TestBase {
     public int numberOfItemsInTheCart() {
         String count = cartCount.getText();
         return Integer.parseInt(count);
+    }
+
+    //Method to click open the cart page
+    public void openCartPage() {
+        cart.click();
     }
 }
