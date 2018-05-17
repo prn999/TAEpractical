@@ -6,24 +6,24 @@ import com.TAE.pages.CheckoutPage;
 import com.TAE.pages.HomePage;
 import com.TAE.pages.ShopPage;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 
 public class HomePageTest extends TestBase {
-
+//Instances of classes used in this class
     HomePage homePage;
     ShopPage shopPage;
     CartPage cartPage;
     CheckoutPage checkoutPage;
 
+//Constructor - calling methods from Testbase class initialising browser and open URL
     public HomePageTest() {
         initializeBrowser();
         openUrl();
     }
-
+//Initializing classes and pagefactory elements of those classes
     @BeforeTest
     public void setup() {
         homePage = new HomePage();
@@ -34,34 +34,35 @@ public class HomePageTest extends TestBase {
         PageFactory.initElements(driver, homePage);
         PageFactory.initElements(driver, shopPage);
         PageFactory.initElements(driver, cartPage);
-        PageFactory.initElements(driver,checkoutPage);
+        PageFactory.initElements(driver, checkoutPage);
 
 
     }
-
+//Complete end to end scenario navigating from home page to checkout completion
     @Test
-    public void endToEndPurchaseTest()  {
-       Assert.assertEquals(validatePageTitle(), prop.getProperty("homePageTitle"));
+    public void endToEndPurchaseTest() {
+        Assert.assertEquals(getPageTitle(), objectRepoProp.getProperty("homePageTitle"));
         homePage.openShoppingPage();
-       int items = shopPage.numberOfItemsInTheCart();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        int items = shopPage.numberOfItemsInTheCart();
         shopPage.clickBuyTeddyBearTab();
-       Assert.assertEquals(shopPage.numberOfItemsInTheCart(),items + 1);
-       shopPage.openCartPage();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-       cartPage.clickCheckoutTab();
+        Assert.assertEquals(shopPage.numberOfItemsInTheCart(), items + 1);
+        shopPage.openCartPage();
+
+        cartPage.clickCheckoutTab();
+
+        checkoutPage.fillDeliveryDetails(testDataProp.getProperty("ForenameTestData"),
+                testDataProp.getProperty("SurnameTestData"), testDataProp.getProperty("EmailTestData"),
+                testDataProp.getProperty("TelephoneTestData"), testDataProp.getProperty("AddressTestData"));
+        checkoutPage.fillPaymentDetails(testDataProp.getProperty("CardTypeTestData"),
+                testDataProp.getProperty("CardNumberTestData"));
+        checkoutPage.clickSubmit();
+
+        TestBase.tearDown();
 
 
         //Assert.assertEquals(validatePageTitle(), prop.getProperty("homePageTitle"));
-      //  Assert.assertEquals(shopPage.verifyTeddyTitle(),shopPage.verifyTeddyTitle().contains("Teddy Bear"));
+        //  Assert.assertEquals(shopPage.verifyTeddyTitle(),shopPage.verifyTeddyTitle().contains("Teddy Bear"));
     }
 
 
