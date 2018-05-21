@@ -34,6 +34,7 @@ public class ShopPage extends TestBase {
 
     // Method to click on buy a teddy bear tab
     public void clickBuyTeddyBearTab() {
+        // wait until teddy bear buy tab is clickable
         buyTeddyBearTab = wait.until(ExpectedConditions.elementToBeClickable(buyTeddyBearTab));
          buyTeddyBearTab.click();
     }

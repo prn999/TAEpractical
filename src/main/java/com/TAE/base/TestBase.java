@@ -1,5 +1,6 @@
 package com.TAE.base;
 
+import org.apache.logging.log4j.core.util.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -76,12 +77,14 @@ public class TestBase {
 
     public static String getPageTitle() {
         String title = driver.getTitle();
-        return title;
+                return title;
     }
 
-   // public static boolean assertPageTitle(String expectedTitle){
-    //    return
-   // }
+   /* public static boolean assertPageTitle(String expectedTitle){
+        Assert.assertEquals(getPageTitle(), objectRepoProp.getProperty("homePageTitle"));
+
+        return
+    }*/
 
     public static void tearDown() {
         driver.quit();

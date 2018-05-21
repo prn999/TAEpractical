@@ -11,7 +11,7 @@ public class CheckoutPage extends TestBase {
 
     WebDriverWait wait = new WebDriverWait(driver,10);
 
-
+//PageFactory - WebElements
     @FindBy(id = "forename")
     WebElement forename;
 
@@ -36,8 +36,10 @@ public class CheckoutPage extends TestBase {
     @FindBy(id="checkout-submit-btn")
     WebElement submitTab;
 
+    // Method to fill delivery details form
     public void fillDeliveryDetails(String custForename, String custSurname,
                                  String custEmail, String custTelNumber, String custAddress) {
+        // wait until forename field is visible
         forename = wait.until(ExpectedConditions.visibilityOf(forename));
         forename.sendKeys(custForename);
         surname.sendKeys(custSurname);
@@ -46,12 +48,15 @@ public class CheckoutPage extends TestBase {
         address.sendKeys(custAddress);
 
     }
+    // Method to fill payment details form
     public void fillPaymentDetails(String selectCardType,String custCardNum){
+        //wait until cardType dropdown box is clickable
         cardType = wait.until(ExpectedConditions.elementToBeClickable(cardType));
         Select  selCardType = new Select(cardType);
         selCardType.selectByVisibleText(selectCardType);
         cardNumber.sendKeys(custCardNum);
     }
+    // Method to click on submit tab
     public void clickSubmit(){
         submitTab.click();
     }
