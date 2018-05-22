@@ -7,14 +7,12 @@ import com.TAE.pages.HomePage;
 import com.TAE.pages.ShopPage;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.log4testng.Logger;
 
 
 public class HomePageTest extends TestBase {
-//Instances of classes used in this class
+    //Instances of classes used in this class
     HomePage homePage;
     ShopPage shopPage;
     CartPage cartPage;
@@ -22,14 +20,13 @@ public class HomePageTest extends TestBase {
 
     Logger logger = Logger.getLogger(HomePageTest.class);
 
-//Constructor - calling methods from Testbase class initialising browser and to open URL
-    public HomePageTest() {
+    //Initializing classes and pagefactory elements of those classes
+    @BeforeMethod
+    public void setup() {
+
         initializeBrowser();
         openUrl();
-    }
-//Initializing classes and pagefactory elements of those classes
-    @BeforeClass
-    public void setup() {
+
         homePage = new HomePage();
         shopPage = new ShopPage();
         cartPage = new CartPage();
@@ -43,9 +40,12 @@ public class HomePageTest extends TestBase {
 
     }
 
-//Complete end to end scenario navigating from home page to checkout completion
-    @Test
+    /**
+     * Complete end to end scenario navigating from home page to checkout completion
+     */
+    @Test(priority = 1)
     public void endToEndPurchaseTest() {
+        logger.info("*Starting***********endToEndPurchaseTest***************");
         Assert.assertEquals(getPageTitle(), objectRepoProp.getProperty("homePageTitle"));
         homePage.openShoppingPage();
         logger.info("Clicked shopping page tab");
@@ -65,13 +65,27 @@ public class HomePageTest extends TestBase {
                 testDataProp.getProperty("CardNumberTestData"));
         checkoutPage.clickSubmit();
 
-
-
-        //Assert.assertEquals(validatePageTitle(), prop.getProperty("homePageTitle"));
-        //  Assert.assertEquals(shopPage.verifyTeddyTitle(),shopPage.verifyTeddyTitle().contains("Teddy Bear"));
     }
-    @AfterClass
-    public void closeBrowser(){
+
+    @Test(priority = 2)
+    public void emptyCheckout() {
+        Assert.assertEquals(getPageTitle(), objectRepoProp.getProperty("homePageTitle"));
+
+        homePage.openShoppingPage();
+        logger.info("Clicked shopping page tab");
+
+
+        int items = shopPage.numberOfItemsInTheCart();
+        shopPage.clickBuyTeddyBearTab();
+        Assert.assertEquals(shopPage.numberOfItemsInTheCart(), items + 1);
+        shopPage.openCartPage();
+
+        cartPage.clickEmptyCartTabYes();
+
+    }
+
+    @AfterMethod
+    public void closeBrowser() {
         tearDown();
     }
 

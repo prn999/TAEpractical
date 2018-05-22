@@ -12,6 +12,7 @@ import java.util.Properties;
 
 
 public class TestBase {
+
     //Global variables
     public static WebDriver driver;
     public static Properties objectRepoProp;
@@ -19,34 +20,27 @@ public class TestBase {
 
     //Constructor
     public TestBase() {
-        //Retrieve and read contents from objectRepo file
+        //Retrieve and read contents from objectRepo and testData file
         try {
             objectRepoProp = new Properties();
-            FileInputStream fis = null;
+            testDataProp = new Properties();
+
+            FileInputStream fis1 = null;
+            FileInputStream fis2 = null;
+
             try {
-                fis = new FileInputStream("C:\\Users\\prn99\\eclipse-workspace\\TAEpractical\\src\\resources\\objectRepo.properties");
+                fis1 = new FileInputStream(System.getProperty("user.dir") + "\\src\\resources\\objectRepo.properties");
+                fis2 = new FileInputStream(System.getProperty("user.dir") + "\\src\\resources\\testData.properties");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            objectRepoProp.load(fis);
+
+            objectRepoProp.load(fis1);
+            testDataProp.load(fis2);
+
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
 
-        }
-        //Retrieve and read contents from testData file
-        try {
-            testDataProp = new Properties();
-            FileInputStream fis = null;
-            try {
-                fis = new FileInputStream("C:\\Users\\prn99\\eclipse-workspace\\TAEpractical\\src\\resources\\testData.properties");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            testDataProp.load(fis);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -54,38 +48,47 @@ public class TestBase {
 
     }
 
-    //Initialising the browser
+    /**
+     * Initialising the browser
+     *
+     * @return driver
+     */
     public static WebDriver initializeBrowser() {
 
         String browserName = objectRepoProp.getProperty("browser");
+
         if (browserName.equalsIgnoreCase("chrome")) {
-            System.setProperty("webdriver.chrome.driver", "C:\\Users\\prn99\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", objectRepoProp.getProperty("chromeDriverPath"));
             driver = new ChromeDriver();
+
         } else if (browserName.equalsIgnoreCase("firefox")) {
-            System.setProperty("webdriver.gecko.driver", "firefoxDriverPath");
+            System.setProperty("webdriver.gecko.driver", objectRepoProp.getProperty("firefoxDriverPath"));
             driver = new FirefoxDriver();
         }
-        // driver.get(prop.getProperty("url"));
         return driver;
     }
-//Opens URL and maximise the window
+
+    /**
+     * Opens URL and maximise the window
+     */
     public static void openUrl() {
         driver.get(objectRepoProp.getProperty("url"));
         driver.manage().window().maximize();
-
     }
 
+    /**
+     * Getting the page title
+     *
+     * @return title
+     */
     public static String getPageTitle() {
         String title = driver.getTitle();
-                return title;
+        return title;
     }
 
-   /* public static boolean assertPageTitle(String expectedTitle){
-        Assert.assertEquals(getPageTitle(), objectRepoProp.getProperty("homePageTitle"));
-
-        return
-    }*/
-
+    /**
+     * Quit the browser
+     */
     public static void tearDown() {
         driver.quit();
     }

@@ -2,10 +2,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="tests">
     <listeners>
-        <listener class-name="com.TAE.reports.ExtentReporterNG" />
+        <listener class-name="com.TAE.reports.ExtentReporterNG"/>
     </listeners>
     <test name="TAEpractical">
-                <classes>
+        <classes>
             <class name="com.TAE.tests.HomePageTest"/>
         </classes>
     </test> <!-- TAEpractical -->
