@@ -1,13 +1,18 @@
 package com.TAE.base;
 
-import org.apache.logging.log4j.core.util.Assert;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Properties;
 
 
@@ -17,16 +22,22 @@ public class TestBase {
     public static WebDriver driver;
     public static Properties objectRepoProp;
     public static Properties testDataProp;
+    public static Properties log4jprops;
 
-    //Constructor
+    /**
+     *TestBase Constructor
+     *Retrieves and reads contents from the objectRepo and testData file
+     */
     public TestBase() {
-        //Retrieve and read contents from objectRepo and testData file
+
         try {
             objectRepoProp = new Properties();
             testDataProp = new Properties();
+            //log4jprops = new Properties();
 
             FileInputStream fis1 = null;
             FileInputStream fis2 = null;
+
 
             try {
                 fis1 = new FileInputStream(System.getProperty("user.dir") + "\\src\\resources\\objectRepo.properties");
@@ -34,6 +45,10 @@ public class TestBase {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+
+
+           // log4jprops.load(new FileInputStream(System.getProperty("user.dir")+ "\\src\\resources\\log4j.properties"));
+            //log4jprops.setProperty("log4j.appender.File.File", System.getProperty("user.dir")+"\\test-output\\Default Suite" + "logging.log");
 
             objectRepoProp.load(fis1);
             testDataProp.load(fis2);
@@ -55,14 +70,17 @@ public class TestBase {
      */
     public static WebDriver initializeBrowser() {
 
+        String OSName = System.getProperty("os.name");
         String browserName = objectRepoProp.getProperty("browser");
 
-        if (browserName.equalsIgnoreCase("chrome")) {
-            System.setProperty("webdriver.chrome.driver", objectRepoProp.getProperty("chromeDriverPath"));
+        //windows 32 bit chrome driver
+        if (browserName.equalsIgnoreCase("chrome") && OSName.toLowerCase().contains("win")) {
+            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\browser drivers\\chromedriver.exe");
             driver = new ChromeDriver();
 
-        } else if (browserName.equalsIgnoreCase("firefox")) {
-            System.setProperty("webdriver.gecko.driver", objectRepoProp.getProperty("firefoxDriverPath"));
+            //windows 64 bit firefox driver
+        } else if (browserName.equalsIgnoreCase("firefox")&& OSName.toLowerCase().contains("win")) {
+            System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\browser drivers\\geckodriver.exe");
             driver = new FirefoxDriver();
         }
         return driver;
@@ -93,6 +111,27 @@ public class TestBase {
         driver.quit();
     }
 
+    /**
+     * Capture screen shot
+     */
+        public static void captureScreen(WebDriver driver, String screenName) throws IOException{
+
+            Date date = new Date();
+            Timestamp time = new Timestamp(date.getTime());
+            String timeStamp = time.toString();
+            timeStamp = timeStamp.replace(',','_');
+            timeStamp = timeStamp.replace(':','_');
+
+            TakesScreenshot screen = (TakesScreenshot) driver;
+        File src = screen.getScreenshotAs(OutputType.FILE);
+
+        String dest = System.getProperty("user.dir")+"//screenshots//"+ screenName +"_"+timeStamp+".png";
+
+        File target = new File(dest);
+        FileUtils.copyFile(src, target);
+
+      //  return dest;
+    }
 
 }
 

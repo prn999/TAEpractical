@@ -1,7 +1,6 @@
 package com.TAE.pages;
 
 import com.TAE.base.TestBase;
-import org.apache.logging.log4j.core.util.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
@@ -41,6 +40,5 @@ public class CartPage extends TestBase {
         emptyCartTab.click();
         wait.until(ExpectedConditions.elementToBeClickable(emptyCartYesTab));
         emptyCartYesTab.click();
-
     }
 }

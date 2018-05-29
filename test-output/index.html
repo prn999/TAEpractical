@@ -2,9 +2,10 @@
 
 <html>
   <head>
+  <meta charset='utf-8'>
   <title>TestNG reports</title>
 
-    <link type="text/css" href="testng-reports.css" rel="stylesheet" />  
+    <link type="text/css" href="testng-reports.css" rel="stylesheet" />
     <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="testng-reports.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -90,7 +91,7 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">1 method,   1 passed</span>
+                    <span class="method-stats">2 methods,   2 passed</span>
                   </li>
                   <li>
                     <span class="method-list-title passed">Passed methods</span>
@@ -99,6 +100,11 @@
                       <a href="#" panel-name="suite-Default_Suite" class="show-methods passed suite-Default_Suite"> (show)</a> <!-- show-methods passed suite-Default_Suite -->
                     </span>
                     <div class="method-list-content passed suite-Default_Suite">
+                      <span>
+                        <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-Default_Suite" title="com.TAE.tests.HomePageTest" class="method navigator-link" hash-for-method="emptyCheckout">emptyCheckout</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
                       <span>
                         <img src="passed.png" width="3%"/>
                         <a href="#" panel-name="suite-Default_Suite" title="com.TAE.tests.HomePageTest" class="method navigator-link" hash-for-method="endToEndPurchaseTest">endToEndPurchaseTest</a> <!-- method navigator-link -->
@@ -124,6 +130,13 @@
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
+                  <a name="emptyCheckout">
+                  </a> <!-- emptyCheckout -->
+                  <span class="method-name">emptyCheckout</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
                   <a name="endToEndPurchaseTest">
                   </a> <!-- endToEndPurchaseTest -->
                   <span class="method-name">endToEndPurchaseTest</span>
@@ -140,7 +153,7 @@
             <pre>
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE suite SYSTEM &quot;http://testng.org/testng-1.0.dtd&quot;&gt;
-&lt;suite name=&quot;Default Suite&quot;&gt;
+&lt;suite name=&quot;Default Suite&quot; guice-stage=&quot;DEVELOPMENT&quot;&gt;
   &lt;test name=&quot;TAEpractical&quot;&gt;
     &lt;classes&gt;
       &lt;class name=&quot;com.TAE.tests.HomePageTest&quot;/&gt;
@@ -183,16 +196,20 @@ data.addColumn('number', 'Number');
 data.addColumn('string', 'Method');
 data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
-data.addRows(1);
+data.addRows(2);
 data.setCell(0, 0, 0)
 data.setCell(0, 1, 'endToEndPurchaseTest')
 data.setCell(0, 2, 'com.TAE.tests.HomePageTest')
-data.setCell(0, 3, 13817);
+data.setCell(0, 3, 41044);
+data.setCell(1, 0, 1)
+data.setCell(1, 1, 'emptyCheckout')
+data.setCell(1, 2, 'com.TAE.tests.HomePageTest')
+data.setCell(1, 3, 7301);
 window.suiteTableData['Default_Suite']= { tableData: data, tableDiv: 'times-div-Default_Suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 13 seconds</span>
+              <span class="suite-total-time">Total running time: 48 seconds</span>
               <div id="times-div-Default_Suite">
               </div> <!-- times-div-Default_Suite -->
             </div> <!-- times-div -->
@@ -219,18 +236,30 @@ return data;
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
               <div class="chronological-class-name">com.TAE.tests.HomePageTest</div> <!-- chronological-class-name -->
-              <div class="configuration-class before">
+              <div class="configuration-method before">
                 <span class="method-name">setup</span>
                 <span class="method-start">0 ms</span>
-              </div> <!-- configuration-class before -->
+              </div> <!-- configuration-method before -->
               <div class="test-method">
                 <span class="method-name">endToEndPurchaseTest</span>
-                <span class="method-start">454 ms</span>
+                <span class="method-start">51921 ms</span>
               </div> <!-- test-method -->
-              <div class="configuration-class after">
-                <span class="method-name">closeBrowser</span>
-                <span class="method-start">14272 ms</span>
-              </div> <!-- configuration-class after -->
+              <div class="configuration-method after">
+                <span class="method-name">closeBrowser([TestResult name=endToEndPurchaseTest status=SUCCESS method=HomePageTest.endToEndPurchaseTest()[pri:...)</span>
+                <span class="method-start">92969 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-method before">
+                <span class="method-name">setup</span>
+                <span class="method-start">95196 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="test-method">
+                <span class="method-name">emptyCheckout</span>
+                <span class="method-start">115472 ms</span>
+              </div> <!-- test-method -->
+              <div class="configuration-method after">
+                <span class="method-name">closeBrowser([TestResult name=emptyCheckout status=SUCCESS method=HomePageTest.emptyCheckout()[pri:2, instance:co...)</span>
+                <span class="method-start">122773 ms</span>
+              </div> <!-- configuration-method after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
       </div> <!-- main-panel-root -->
