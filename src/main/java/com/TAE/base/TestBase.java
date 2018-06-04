@@ -1,11 +1,16 @@
 package com.TAE.base;
 
+import com.TAE.pages.CartPage;
+import com.TAE.pages.CheckoutPage;
+import com.TAE.pages.HomePage;
+import com.TAE.pages.ShopPage;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,8 +30,8 @@ public class TestBase {
     public static Properties log4jprops;
 
     /**
-     *TestBase Constructor
-     *Retrieves and reads contents from the objectRepo and testData file
+     * TestBase Constructor
+     * Retrieves and reads contents from the objectRepo and testData file
      */
     public TestBase() {
 
@@ -47,7 +52,7 @@ public class TestBase {
             }
 
 
-           // log4jprops.load(new FileInputStream(System.getProperty("user.dir")+ "\\src\\resources\\log4j.properties"));
+            // log4jprops.load(new FileInputStream(System.getProperty("user.dir")+ "\\src\\resources\\log4j.properties"));
             //log4jprops.setProperty("log4j.appender.File.File", System.getProperty("user.dir")+"\\test-output\\Default Suite" + "logging.log");
 
             objectRepoProp.load(fis1);
@@ -75,12 +80,12 @@ public class TestBase {
 
         //windows 32 bit chrome driver
         if (browserName.equalsIgnoreCase("chrome") && OSName.toLowerCase().contains("win")) {
-            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\browser drivers\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\browser drivers\\chromedriver.exe");
             driver = new ChromeDriver();
 
             //windows 64 bit firefox driver
-        } else if (browserName.equalsIgnoreCase("firefox")&& OSName.toLowerCase().contains("win")) {
-            System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\browser drivers\\geckodriver.exe");
+        } else if (browserName.equalsIgnoreCase("firefox") && OSName.toLowerCase().contains("win")) {
+            System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "\\browser drivers\\geckodriver.exe");
             driver = new FirefoxDriver();
         }
         return driver;
@@ -92,6 +97,22 @@ public class TestBase {
     public static void openUrl() {
         driver.get(objectRepoProp.getProperty("url"));
         driver.manage().window().maximize();
+    }
+    public static void initialisePageFactoryandClasses(){
+        initializeBrowser();
+        openUrl();
+        // Initialised the page classes
+        HomePage homePage = new HomePage();
+        ShopPage shopPage = new ShopPage();
+        CartPage cartPage = new CartPage();
+        CheckoutPage checkoutPage = new CheckoutPage();
+
+
+        // Initialised the elements in the page classes
+        PageFactory.initElements(driver, homePage);
+        PageFactory.initElements(driver, shopPage);
+        PageFactory.initElements(driver, cartPage);
+        PageFactory.initElements(driver, checkoutPage);
     }
 
     /**
@@ -114,23 +135,23 @@ public class TestBase {
     /**
      * Capture screen shot
      */
-        public static void captureScreen(WebDriver driver, String screenName) throws IOException{
+    public static void captureScreen(WebDriver driver, String screenName) throws IOException {
 
-            Date date = new Date();
-            Timestamp time = new Timestamp(date.getTime());
-            String timeStamp = time.toString();
-            timeStamp = timeStamp.replace(',','_');
-            timeStamp = timeStamp.replace(':','_');
+        Date date = new Date();
+        Timestamp time = new Timestamp(date.getTime());
+        String timeStamp = time.toString();
+        timeStamp = timeStamp.replace(',', '_');
+        timeStamp = timeStamp.replace(':', '_');
 
-            TakesScreenshot screen = (TakesScreenshot) driver;
+        TakesScreenshot screen = (TakesScreenshot) driver;
         File src = screen.getScreenshotAs(OutputType.FILE);
 
-        String dest = System.getProperty("user.dir")+"//screenshots//"+ screenName +"_"+timeStamp+".png";
+        String dest = System.getProperty("user.dir") + "//screenshots//" + screenName + "_" + timeStamp + ".png";
 
         File target = new File(dest);
         FileUtils.copyFile(src, target);
 
-      //  return dest;
+        //  return dest;
     }
 
 }

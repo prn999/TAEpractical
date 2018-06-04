@@ -36,6 +36,9 @@ public class CheckoutPage extends TestBase {
     @FindBy(id="checkout-submit-btn")
     WebElement submitTab;
 
+    @FindBy(xpath = "//div[@class='alert alert-success']")
+    WebElement confirmationMessage;
+
     // Method to fill delivery details form
     public void fillDeliveryDetails(String custForename, String custSurname,
                                  String custEmail, String custTelNumber, String custAddress) {
@@ -59,6 +62,13 @@ public class CheckoutPage extends TestBase {
     // Method to click on submit tab
     public void clickSubmit(){
         submitTab.click();
+    }
+
+    // Order confirmation message displayed
+    public boolean confirmationMessage(){
+        wait.until(ExpectedConditions.visibilityOf(confirmationMessage));
+        confirmationMessage.isDisplayed();
+        return true;
     }
 
 

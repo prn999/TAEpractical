@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -24,7 +25,8 @@ public class HomePageTest extends TestBase {
     CartPage cartPage;
     CheckoutPage checkoutPage;
 
-     Logger logger = LoggerFactory.getLogger(HomePageTest.class);
+    Logger logger = LoggerFactory.getLogger(HomePageTest.class);
+
     //Initializing classes and pagefactory elements of those classes
     @BeforeMethod
     public void setup() {
@@ -89,9 +91,13 @@ public class HomePageTest extends TestBase {
         checkoutPage.clickSubmit();
         logger.info("............Clicked submit");
 
+        checkoutPage.confirmationMessage();
+        logger.info("............Order confirmation message displayed");
+
         logger.info("............End of Test");
 
     }
+
     /**
      * Scenario to verify user can empty the contents in the cart
      */
@@ -129,7 +135,9 @@ public class HomePageTest extends TestBase {
     }
 
     @AfterMethod
-    public void closeBrowser(ITestResult result) throws IOException {
+    public void closeBrowser() throws IOException {
+        ITestResult result = Reporter.getCurrentTestResult();
+
         if (ITestResult.FAILURE == result.getStatus()) {
 
             System.out.println(result.getName());
